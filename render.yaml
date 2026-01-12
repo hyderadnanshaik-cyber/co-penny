@@ -13,4 +13,7 @@ services:
         value: gemini-2.0-flash
       - key: MONGODB_DATABASE
         value: copenny
+      - key: PYTHONUNBUFFERED
+        value: 1
       # MONGODB_URI and GEMINI_API_KEY should be set in Render Dashboard
+    healthCheckPath: /health

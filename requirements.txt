@@ -16,3 +16,4 @@ duckdb
 mongomock
 seaborn
 scikit-learn
+openpyxl

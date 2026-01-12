@@ -16,7 +16,8 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 if __name__ == "__main__":
-    print("Starting Cashflow server...")
+    print("Starting Cashflow server...", flush=True)
+    sys.stdout.flush()
     
     # Environment Diagnostics
     provider = os.getenv("LLM_PROVIDER", "free")

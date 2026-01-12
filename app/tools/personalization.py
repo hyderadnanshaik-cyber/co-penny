@@ -144,7 +144,7 @@ class PersonalizationEngine:
         Process and store user CSV data
         
         Args:
-            csv_path: Path to uploaded CSV file
+            csv_path: Path to uploaded CSV file (or Excel file)
             user_id: Unique user identifier
             overwrite: Whether to overwrite existing user data
             
@@ -152,6 +152,21 @@ class PersonalizationEngine:
             Dict with processing results
         """
         try:
+            # Handle Excel files by converting to CSV first
+            if csv_path.lower().endswith(('.xls', '.xlsx')):
+                try:
+                    df = pd.read_excel(csv_path)
+                    # Create a temporary CSV file
+                    import tempfile
+                    with tempfile.NamedTemporaryFile(delete=False, suffix='.csv') as tmp_csv:
+                        df.to_csv(tmp_csv.name, index=False)
+                        csv_path = tmp_csv.name
+                except Exception as e:
+                    return {
+                        "success": False,
+                        "error": f"Failed to convert Excel file: {str(e)}"
+                    }
+
             # Validate CSV
             validation = self.validate_csv(csv_path)
             if not validation["valid"]:

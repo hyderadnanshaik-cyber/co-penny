@@ -422,14 +422,16 @@ async def upload_personal_data(
             }
 
         # Validate file type
-        if not file.filename.endswith('.csv'):
+        filename = file.filename.lower()
+        if not (filename.endswith('.csv') or filename.endswith('.xls') or filename.endswith('.xlsx')):
             return {
                 "success": False,
-                "error": "File must be a CSV file"
+                "error": "File must be a CSV or Excel file"
             }
         
-        # Save uploaded file temporarily
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.csv') as tmp_file:
+        # Save uploaded file temporarily with correct extension
+        suffix = os.path.splitext(filename)[1]
+        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp_file:
             shutil.copyfileobj(file.file, tmp_file)
             tmp_path = tmp_file.name
         
