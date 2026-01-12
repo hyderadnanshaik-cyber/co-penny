@@ -13,8 +13,4 @@ services:
         value: gemini-2.0-flash
       - key: MONGODB_DATABASE
         value: copenny
-<<<<<<< HEAD
-      # MONGODB_URI and OPENROUTER_API_KEY should be set in Render Dashboard
-=======
       # MONGODB_URI and GEMINI_API_KEY should be set in Render Dashboard
->>>>>>> a4fcba7 (Remove disk config for Free tier)
