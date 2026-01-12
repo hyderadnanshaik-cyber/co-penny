@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment Variables (CRITICAL)
+.env
+.env.*
+
+# Virtual Environments
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Local Data and State
+data/
+state/
+*.db
+*.sqlite3
+
+# Logs
+*.log

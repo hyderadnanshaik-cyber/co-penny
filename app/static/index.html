@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    if (localStorage.getItem('copenny_authenticated') !== 'true') {
+      window.location.href = '/landing';
+    }
+  </script>
+  <title> Co Penny Advisor | Dashboard </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0c1015;
+      --bg-card: rgba(23, 27, 33, 0.7);
+      --border-color: rgba(255, 255, 255, 0.05);
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --sidebar-item-hover: rgba(255, 255, 255, 0.05);
+      --msg-user-bg: #1e293b;
+      --msg-bot-bg: #161b22;
+      --accent: #10b981;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .light-mode {
+      --bg-main: #ffffff;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --sidebar-bg: #f8fafc;
+      --sidebar-item-hover: #eff6ff;
+      --msg-user-bg: #eff6ff;
+      --msg-bot-bg: #ffffff;
+      --accent: #10b981;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      margin: 0;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .glass {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .light-mode .glass {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .active-nav {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid #10b981;
+      color: #10b981;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0c1015;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 10px;
+    }
+
+    .msg-user {
+      background: var(--msg-user-bg);
+      border-bottom-right-radius: 2px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .msg-bot {
+      background: var(--msg-bot-bg);
+      border: 1px solid var(--border-color);
+      border-bottom-left-radius: 2px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .pulse-green {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .5;
+      }
+    }
+
+    /* Mobile Responsive Overrides */
+    @media (max-width: 768px) {
+      aside {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        transition: left 0.3s ease;
+        box-shadow: 20px 0 50px rgba(0, 0, 0, 0.5);
+      }
+
+      aside.mobile-open {
+        left: 0;
+      }
+
+      main {
+        padding-top: 4rem;
+        /* For mobile header */
+      }
+
+      .grid-cols-2,
+      .grid-cols-3 {
+        grid-template-columns: 1fr !important;
+      }
+
+      .mobile-header {
+        display: flex !important;
+      }
+    }
+
+    .tab-content {
+      /* Base styles only, visibility handled by .hidden or .active */
+    }
+
+    .light-mode #nav-overview.active-nav,
+    .light-mode #nav-chat.active-nav,
+    .light-mode #nav-data.active-nav {
+      background: #f1f5f9;
+      color: #10b981;
+      border-left: 4px solid #10b981;
+    }
+
+    .light-mode .text-emerald-400 {
+      color: #059669 !important;
+    }
+
+    .light-mode .text-slate-400 {
+      color: #64748b !important;
+    }
+
+    .light-mode .text-white {
+      color: #0f172a !important;
+    }
+
+    .light-mode aside {
+      background: var(--sidebar-bg);
+      border-right: 1px solid #e2e8f0;
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.01);
+    }
+
+    .light-mode header {
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid #e2e8f0;
+      backdrop-filter: blur(20px);
+    }
+
+    .light-mode .nav-item:hover {
+      background: #eff6ff;
+      color: #0f172a;
+    }
+
+    .light-mode .bg-slate-900 {
+      background: #ffffff !important;
+      border-color: #e2e8f0 !important;
+    }
+
+    .light-mode .bg-slate-800 {
+      background: #f1f5f9 !important;
+      border-color: #e2e8f0 !important;
+    }
+  </style>
+</head>
+
+<body class="h-screen flex flex-col md:flex-row overflow-hidden">
+
+  <!-- Mobile Header -->
+  <header
+    class="mobile-header hidden fixed top-0 left-0 right-0 h-16 glass z-30 flex items-center justify-between px-6 md:hidden">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center font-bold text-black text-sm">CP
+      </div>
+      <span class="text-white font-bold">Co Penny</span>
+    </div>
+    <button onclick="toggleSidebar()" class="p-2 text-slate-400 hover:text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- Sidebar Overlay -->
+  <div id="sidebarOverlay" onclick="toggleSidebar()"
+    class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-40 hidden md:hidden"></div>
+
+  <!-- Sidebar -->
+  <aside id="dashboardSidebar" class="w-64 border-r border-slate-800 flex flex-col glass z-50">
+    <div class="p-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center font-bold text-black text-sm">CP
+        </div>
+        <h1 class="text-lg font-bold tracking-tight text-white">Co Penny</h1>
+      </div>
+    </div>
+
+    <nav class="flex-1 mt-4 px-2 space-y-1">
+      <button onclick="switchTab('overview')"
+        class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all active-nav"
+        id="nav-overview">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="7" height="9" x="3" y="3" rx="1" />
+          <rect width="7" height="5" x="14" y="3" rx="1" />
+          <rect width="7" height="9" x="14" y="12" rx="1" />
+          <rect width="7" height="5" x="3" y="16" rx="1" />
+        </svg>
+        <span class="text-sm font-medium">Dashboard</span>
+      </button>
+      <button onclick="switchTab('chat')"
+        class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all"
+        id="nav-chat">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z" />
+        </svg>
+        <span class="text-sm font-medium">AI Advisor</span>
+      </button>
+      <button onclick="switchTab('data')"
+        class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all"
+        id="nav-data">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" x2="12" y1="15" y2="3" />
+        </svg>
+        <span class="text-sm font-medium">Data Management</span>
+      </button>
+      <button onclick="switchTab('plans')"
+        class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all"
+        id="nav-plans">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v20" />
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+        </svg>
+        <span class="text-sm font-medium">Pricing Plans</span>
+      </button>
+    </nav>
+
+    <div class="p-4 border-t border-slate-800 space-y-2">
+      <div class="flex items-center gap-3 px-2 py-2">
+        <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold"
+          id="userInitials">U</div>
+        <div class="overflow-hidden flex-1">
+          <div class="flex items-center justify-between">
+            <p class="text-xs font-semibold text-white truncate" id="userNameDisplay">User</p>
+            <span id="tierBadge" onclick="switchTab('plans')"
+              class="text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-400 font-bold uppercase tracking-wider cursor-pointer hover:bg-indigo-500/30 transition-all">Free</span>
+          </div>
+          <p class="text-[10px] text-slate-500 truncate" id="userIdDisplay">user_id_... </p>
+        </div>
+      </div>
+      <button onclick="handleLogout()"
+        class="w-full flex items-center gap-3 px-4 py-2 rounded-lg text-slate-500 hover:bg-red-500/10 hover:text-red-400 transition-all text-xs font-medium">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" x2="9" y1="12" y2="12" />
+        </svg>
+        Logout
+      </button>
+      <div class="px-4 py-2">
+        <p class="text-[10px] text-slate-600 uppercase font-bold tracking-widest text-center">Created by REDHACK</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-col relative overflow-hidden">
+
+    <!-- Header -->
+    <header class="h-16 border-b border-slate-800 flex items-center justify-between px-8 z-10 glass">
+      <h2 class="text-sm font-semibold text-slate-300 uppercase tracking-widest" id="tabTitle">Dashboard</h2>
+      <div class="flex items-center gap-4">
+        <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition-all text-slate-400"
+          id="themeToggle">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            id="sunIcon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" id="moonIcon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-green"></span>
+          <span class="text-[10px] text-slate-400 uppercase font-medium">Model Active</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tab Contents Container -->
+    <div class="flex-1 overflow-hidden relative">
+
+      <!-- Overview Tab -->
+      <div id="tab-overview" class="tab-content h-full overflow-y-auto p-8">
+        <div class="max-w-6xl mx-auto space-y-8">
+          <section>
+            <h3 class="text-2xl font-bold text-white mb-2">Welcome back, <span class="text-emerald-400">Investor</span>
+            </h3>
+            <p class="text-slate-400 text-sm">Here's your financial intelligence overview for this month.</p>
+          </section>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass p-6 rounded-2xl border border-slate-800/50">
+              <p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-2">Total Balance</p>
+              <h4 class="text-3xl font-bold text-white" id="stat-balance">₹ --</h4>
+              <p class="text-[10px] text-emerald-400 mt-2 flex items-center gap-1" id="stat-balance-note"> ... </p>
+            </div>
+            <div class="glass p-6 rounded-2xl border border-slate-800/50">
+              <p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-2">Expense Forecast</p>
+              <h4 class="text-3xl font-bold text-white" id="stat-expense">₹ --</h4>
+              <p class="text-[10px] text-amber-400 mt-2 flex items-center gap-1" id="stat-expense-note"> ... </p>
+            </div>
+            <div class="glass p-6 rounded-2xl border border-slate-800/50">
+              <p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-2">AI Confidence</p>
+              <h4 class="text-3xl font-bold text-white" id="stat-confidence">--%</h4>
+              <p class="text-[10px] text-slate-400 mt-2" id="stat-confidence-note"> ... </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div
+              class="glass p-8 rounded-3xl border border-slate-800/50 flex flex-col group cursor-pointer hover:border-emerald-500/20 transition-all"
+              onclick="switchTab('chat')">
+              <div class="mb-4 text-emerald-500 group-hover:scale-110 transition-transform w-max">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-2">Chat with AI</h4>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">Ask complex questions about your spending patterns
+                or request a personalized budget plan.</p>
+              <div class="mt-auto text-emerald-400 text-sm font-semibold flex items-center gap-2"> Start Conversation →
+              </div>
+            </div>
+
+            <div
+              class="glass p-8 rounded-3xl border border-slate-800/50 flex flex-col group cursor-pointer hover:border-blue-500/20 transition-all"
+              onclick="switchTab('data')">
+              <div class="mb-4 text-blue-500 group-hover:scale-110 transition-transform w-max">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20" />
+                  <path d="m17 17-5 5-5-5" />
+                  <path d="m7 7 5-5 5 5" />
+                </svg>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-2">Sync Your Data</h4>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">Upload bank statements in CSV format to improve the
+                accuracy of your financial model.</p>
+              <div class="mt-auto text-blue-400 text-sm font-semibold flex items-center gap-2"> Manage Data Sources →
+              </div>
+            </div>
+          </div>
+
+          <section class="glass rounded-3xl p-8 border border-slate-800/50">
+            <div class="flex items-center justify-between mb-8">
+              <h4 class="text-lg font-bold text-white">Alert History</h4>
+              <button id="clearHistoryBtn"
+                class="text-[10px] text-slate-500 uppercase font-bold tracking-widest hover:text-white transition-colors">Clear
+                History</button>
+            </div>
+            <div class="space-y-4" id="alertHistoryContainer">
+              <div class="text-center py-8 text-slate-500">
+                <p class="text-sm">Loading alerts...</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- Chat Tab -->
+      <div id="tab-chat" class="tab-content h-full flex flex-col hidden">
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-8 space-y-6">
+          <div class="msg-bot p-4 rounded-2xl max-w-2xl text-sm leading-relaxed animate-fade-in">
+            Hello! I'm your <strong>Co Penny Advisor</strong>. How can I help you optimize your finances today?
+          </div>
+        </div>
+        <div class="p-6 glass border-t border-slate-800">
+          <form id="chatForm" class="max-w-4xl mx-auto flex gap-4 mb-3">
+            <textarea id="chatInput" placeholder="Ask about spending, budget, or co penny…"
+              class="flex-1 bg-slate-900/50 border border-slate-700/50 rounded-2xl py-3 px-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 resize-none h-12"
+              autofocus></textarea>
+            <button type="submit" id="sendBtn"
+              class="bg-emerald-500 hover:bg-emerald-600 text-black px-8 rounded-2xl font-bold text-sm transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-50">Send</button>
+          </form>
+          <p class="text-center text-[10px] text-slate-500 uppercase tracking-tighter">Co Penny AI can make mistakes.
+            Please verify important financial information.</p>
+        </div>
+      </div>
+
+      <!-- Data Tab -->
+      <div id="tab-data" class="tab-content h-full overflow-y-auto p-8 hidden">
+        <div class="max-w-4xl mx-auto space-y-12">
+          <section class="text-center py-12">
+            <h3 class="text-3xl font-bold text-white mb-4">Financial Data Management</h3>
+            <p class="text-slate-400 text-sm max-w-xl mx-auto leading-relaxed">Personalize your analysis by uploading
+              your transaction history. We support standard banking CSV formats.</p>
+          </section>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="glass p-8 rounded-3xl border border-slate-800/50">
+              <h4 class="text-lg font-bold text-white mb-6">Import Transactions</h4>
+              <div id="personalizationStatus" class="mb-6"></div>
+
+              <div class="space-y-6">
+                <div class="relative group">
+                  <input type="file" id="csvFile" accept=".csv" class="hidden" />
+                  <label for="csvFile"
+                    class="flex flex-col items-center justify-center border-2 border-dashed border-slate-700 rounded-3xl p-10 cursor-pointer group-hover:border-emerald-500/50 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                      class="w-10 h-10 text-slate-500 mb-4 group-hover:text-emerald-500 transition-all"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" x2="12" y1="3" y2="15" />
+                    </svg>
+                    <span class="text-sm font-semibold text-white" id="fileNameDisplay">Choose CSV File</span>
+                    <span class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest">Max size 10MB</span>
+                  </label>
+                </div>
+
+                <div class="flex items-center gap-3 bg-slate-900/50 p-4 rounded-2xl border border-slate-800/50">
+                  <input type="checkbox" id="overwriteCheck"
+                    class="w-4 h-4 rounded border-slate-700 bg-slate-900 text-emerald-500 focus:ring-emerald-500" />
+                  <label for="overwriteCheck" class="text-xs text-slate-400">Overwrite existing records for this
+                    user</label>
+                </div>
+
+                <button id="uploadBtn"
+                  class="w-full bg-slate-100 hover:bg-white text-black py-4 rounded-2xl font-bold transition-all disabled:opacity-50">Upload
+                  and Scan</button>
+                <div id="uploadStatus"></div>
+
+                <button id="deleteDataBtn"
+                  class="w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 py-3 rounded-2xl font-medium transition-all border border-red-500/20 text-sm mt-4">Delete
+                  All Data</button>
+              </div>
+            </div>
+
+            <div class="glass p-8 rounded-3xl border border-slate-800/50 flex flex-col">
+              <h4 class="text-lg font-bold text-white mb-6">Model Calibration</h4>
+              <p class="text-slate-400 text-xs leading-relaxed mb-8">Once you've uploaded data, train your personalized
+                AI model to identify your unique spending habits and provide high-accuracy suggestions.</p>
+
+              <div class="mt-auto space-y-4">
+                <div
+                  class="flex items-center justify-between p-4 bg-emerald-500/5 rounded-2xl border border-emerald-500/10">
+                  <div>
+                    <p class="text-xs font-bold text-emerald-400 mb-1 leading-none uppercase tracking-tighter">Current
+                      Status</p>
+                    <p class="text-sm text-white" id="modelStatusMsg">Ready for Calibration</p>
+                  </div>
+                  <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-emerald-500" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+                    </svg>
+                  </div>
+                </div>
+
+                <button id="trainBtn"
+                  class="w-full bg-emerald-500 hover:bg-emerald-600 text-black py-4 rounded-2xl font-bold transition-all shadow-lg shadow-emerald-500/10 disabled:opacity-50">Calibrate
+                  AI Model</button>
+                <div id="trainStatus"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Plans Tab -->
+      <div id="tab-plans" class="tab-content h-full overflow-y-auto p-8 hidden">
+        <div class="max-w-5xl mx-auto">
+          <section class="text-center py-12">
+            <h3 class="text-3xl font-bold text-white mb-4">Subscription Tiers</h3>
+            <p class="text-slate-400 text-sm max-w-xl mx-auto leading-relaxed">Choose the best intelligence level for
+              your financial depth.</p>
+          </section>
+
+          <div class="grid md:grid-cols-3 gap-8">
+            <!-- Tier 1 -->
+            <div
+              class="glass p-8 rounded-[32px] border border-slate-800/50 flex flex-col hover:border-indigo-500/30 transition-all">
+              <div class="mb-8">
+                <p class="text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-2">Current Plan</p>
+                <h3 class="text-xl font-bold text-white mb-2">Free</h3>
+                <div class="flex items-baseline gap-1">
+                  <span class="text-4xl font-bold text-white">₹0</span>
+                  <span class="text-slate-500 text-sm">/month</span>
+                </div>
+              </div>
+              <ul class="space-y-4 mb-10 text-left flex-grow">
+                <li class="flex items-center gap-3 text-slate-300 text-xs">✓ 50 Transactions / mo</li>
+                <li class="flex items-center gap-3 text-slate-300 text-xs">✓ 10 AI Queries / day</li>
+                <li class="flex items-center gap-3 text-slate-300 text-xs">✓ Basic Analytics</li>
+              </ul>
+              <button disabled class="w-full py-4 rounded-2xl bg-white/5 text-slate-500 font-bold text-sm">Active
+                Plan</button>
+            </div>
+
+            <!-- Tier 2 -->
+            <div
+              class="glass p-8 rounded-[32px] border-2 border-indigo-500 relative flex flex-col scale-105 shadow-2xl shadow-indigo-500/10">
+              <div
+                class="absolute -top-4 left-1/2 -track-x-1/2 bg-indigo-500 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full">
+                Most Popular</div>
+              <div class="mb-8 text-center pt-2">
+                <p class="text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-2">Recommended</p>
+                <h3 class="text-xl font-bold text-white mb-2">Pro</h3>
+                <div class="flex items-baseline justify-center gap-1">
+                  <span class="text-4xl font-bold text-white">₹500</span>
+                  <span class="text-slate-500 text-sm">/month</span>
+                </div>
+              </div>
+              <ul class="space-y-4 mb-10 text-left flex-grow">
+                <li class="flex items-center gap-3 text-slate-300 text-xs">✓ 500 Transactions / mo</li>
+                <li class="flex items-center gap-3 text-slate-300 text-xs">✓ 50 AI Queries / day</li>
+                <li class="flex items-center gap-3 text-slate-300 text-xs">✓ Full Analytics Suite</li>
+                <li class="flex items-center gap-3 text-slate-300 text-xs">✓ Cashflow Alerts</li>
+              </ul>
+              <button onclick="window.open('/landing#pricing')"
+                class="w-full py-4 rounded-2xl bg-indigo-600 text-white font-bold text-sm hover:bg-indigo-500 transition-all shadow-xl shadow-indigo-500/20">Upgrade
+                Now</button>
+            </div>
+
+            <!-- Tier 3 -->
+            <div
+              class="glass p-8 rounded-[32px] border border-slate-800/50 flex flex-col hover:border-indigo-500/30 transition-all">
+              <div class="mb-8">
+                <p class="text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-2">High Volume</p>
+                <h3 class="text-xl font-bold text-white mb-2">Enterprise</h3>
+                <div class="flex items-baseline gap-1">
+                  <span class="text-4xl font-bold text-white">₹900</span>
+                  <span class="text-slate-500 text-sm">/month</span>
+                </div>
+              </div>
+              <ul class="space-y-4 mb-10 text-left flex-grow">
+                <li class="flex items-center gap-3 text-slate-300 text-xs">✓ Unlimited History</li>
+                <li class="flex items-center gap-3 text-slate-300 text-xs">✓ Unlimited AI</li>
+                <li class="flex items-center gap-3 text-slate-300 text-xs">✓ Custom Modeling</li>
+                <li class="flex items-center gap-3 text-slate-300 text-xs">✓ Priority Support</li>
+              </ul>
+              <button onclick="window.open('/landing#pricing')"
+                class="w-full py-4 rounded-2xl border border-slate-700 text-white font-bold text-sm hover:bg-slate-800 transition-all">Contact
+                Sales</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </main>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('dashboardSidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      sidebar.classList.toggle('mobile-open');
+      overlay.classList.toggle('hidden');
+    }
+
+    // Close sidebar on tab switch (mobile)
+    const originalSwitchTab = window.switchTab;
+    window.switchTab = function (tab) {
+      if (window.innerWidth <= 768) toggleSidebar();
+      // dashboard.js will handle the actual switching
+      // if it's already defined we might need to be careful
+      // but for now we assume dashboard.js is loaded after this
+    };
+  </script>
+  <script src="/static/dashboard.js"></script>
+</body>
+
+</html>

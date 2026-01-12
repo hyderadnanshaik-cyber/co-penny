@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+pymongo
+python-dotenv
+pydantic
+google-generativeai
+pandas
+matplotlib
+numpy
+jinja2
+python-multipart
+httpx
+jsonschema
+requests
+duckdb
+mongomock

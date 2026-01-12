@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Co Penny | Executive Financial Intelligence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --glass-bg: rgba(30, 41, 59, 0.5);
+      --border-color: rgba(255, 255, 255, 0.05);
+      --hero-gradient: radial-gradient(circle at 50% -20%, #312e81 0%, #0f172a 70%);
+      --accent: #6366f1;
+      --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .light-mode {
+      --bg-primary: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --glass-bg: rgba(255, 255, 255, 0.9);
+      --border-color: #e2e8f0;
+      --hero-gradient: radial-gradient(circle at 50% -20%, #eff6ff 0%, #ffffff 70%);
+      --accent: #4f46e5;
+      --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      margin: 0;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glow-indigo {
+      box-shadow: 0 0 80px -20px var(--accent);
+      opacity: 0.8;
+    }
+
+    .anim-float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    .hero-bg {
+      background-image: var(--hero-gradient);
+    }
+
+    .light-mode .text-slate-400 {
+      color: #64748b !important;
+    }
+
+    .light-mode .text-slate-500 {
+      color: #475569 !important;
+    }
+
+    .light-mode .bg-slate-900\/50 {
+      background: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    .light-mode .border-slate-700\/50 {
+      border-color: #e2e8f0 !important;
+    }
+
+    .light-mode .bg-indigo-500\/10 {
+      background: rgba(79, 70, 229, 0.1) !important;
+    }
+
+    .light-mode .text-indigo-400 {
+      color: #4f46e5 !important;
+    }
+
+    .light-mode nav a {
+      color: #475569 !important;
+    }
+
+    .light-mode nav a:hover {
+      color: #0f172a !important;
+    }
+
+    .light-mode .text-white {
+      color: #0f172a !important;
+    }
+
+    .light-mode .bg-slate-800 {
+      background: #f1f5f9 !important;
+      border-color: #e2e8f0 !important;
+    }
+
+    .light-mode .bg-slate-900\/50 {
+      background: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .light-mode .bg-indigo-500\/5 {
+      background: rgba(79, 70, 229, 0.05) !important;
+      border-color: rgba(79, 70, 229, 0.1) !important;
+    }
+
+    .light-mode .bg-slate-800\/50 {
+      background: #f8fafc !important;
+      border-color: #e2e8f0 !important;
+    }
+
+    .light-mode footer {
+      background: #f8fafc !important;
+      border-top: 1px solid #e2e8f0 !important;
+    }
+
+    .light-mode .bg-slate-900 {
+      background: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+
+    .light-mode .border-slate-700 {
+      border-color: #e2e8f0 !important;
+    }
+  </style>
+</head>
+
+<body class="hero-bg min-h-screen">
+
+  <!-- Nav -->
+  <nav
+    class="absolute top-0 w-full z-50 p-6 md:p-10 flex items-center justify-between max-w-7xl mx-auto left-1/2 -translate-x-1/2">
+    <div class="flex items-center gap-3">
+      <div
+        class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">
+        CP</div>
+      <span class="text-xl font-bold tracking-tight text-white uppercase tracking-widest">Co Penny</span>
+    </div>
+    <div class="hidden md:flex items-center gap-10">
+      <a href="#intelligence"
+        class="text-sm font-medium text-slate-400 hover:text-white transition-all">Intelligence</a>
+      <a href="#pricing" class="text-sm font-medium text-slate-400 hover:text-white transition-all">Pricing</a>
+      <a href="#security" class="text-sm font-medium text-slate-400 hover:text-white transition-all">Security</a>
+      <button onclick="openModal('login')"
+        class="text-sm font-medium text-slate-400 hover:text-white transition-all">Sign In</button>
+      <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition-all" id="themeToggle">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          id="sunIcon">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor" id="moonIcon">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      </button>
+      <button onclick="enterDashboard()"
+        class="bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-full text-sm font-bold transition-all shadow-xl shadow-indigo-500/20">Access
+        Dashboard</button>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-400 hover:text-white transition-all">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="mobileMenu" class="fixed inset-0 z-[100] hidden bg-slate-950/95 backdrop-blur-md animate-fade-in md:hidden">
+    <div class="p-8 flex flex-col h-full">
+      <div class="flex items-center justify-between mb-12">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center font-bold text-white">CP</div>
+          <span class="text-xl font-bold tracking-tight text-white uppercase">Co Penny</span>
+        </div>
+        <button onclick="toggleMobileMenu()" class="p-2 text-slate-400 hover:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <nav class="flex flex-col gap-8 mb-auto">
+        <a href="#intelligence" onclick="toggleMobileMenu()"
+          class="text-2xl font-bold text-white hover:text-indigo-400 transition-all">Intelligence</a>
+        <a href="#pricing" onclick="toggleMobileMenu()"
+          class="text-2xl font-bold text-white hover:text-indigo-400 transition-all">Pricing</a>
+        <a href="#security" onclick="toggleMobileMenu()"
+          class="text-2xl font-bold text-white hover:text-indigo-400 transition-all">Security</a>
+        <button onclick="openModal('login'); toggleMobileMenu()"
+          class="text-left text-2xl font-bold text-white hover:text-indigo-400 transition-all">Sign In</button>
+      </nav>
+      <div class="flex flex-col gap-4 mt-8">
+        <button onclick="enterDashboard()"
+          class="w-full bg-indigo-600 py-5 rounded-2xl font-bold text-white shadow-xl shadow-indigo-500/20">Access
+          Dashboard</button>
+        <button onclick="toggleTheme()"
+          class="w-full border border-slate-700 py-4 rounded-2xl text-slate-400 flex items-center justify-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Toggle Appearance
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <main class="relative pt-40 pb-20 px-6 overflow-hidden">
+    <div class="max-w-5xl mx-auto text-center relative z-10">
+      <div
+        class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-4 py-1.5 rounded-full text-indigo-400 text-xs font-bold uppercase tracking-widest mb-8 animate-fade-in">
+        <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+        Personal Financial Intelligence
+      </div>
+
+      <h1 class="text-5xl md:text-8xl font-bold tracking-tighter text-gradient mb-8 leading-[1.1] md:leading-[0.9]">
+        Master your money with <br class="hidden md:block"> <span class="text-indigo-400">absolute clarity.</span>
+      </h1>
+
+      <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+        An executive-grade advisor that synthesizes your transactions into actionable intelligence. No spreadsheets,
+        just answers.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
+        <button onclick="enterDashboard()"
+          class="w-full sm:w-auto bg-white text-slate-900 px-10 py-5 rounded-full font-bold text-lg hover:bg-slate-200 transition-all shadow-2xl shadow-white/5">Launch
+          Co Penny →</button>
+        <button onclick="openModal('signup')"
+          class="w-full sm:w-auto border border-slate-700 hover:border-slate-500 px-10 py-5 rounded-full font-bold text-lg transition-all">View
+          Demo</button>
+      </div>
+
+      <!-- Dashboard Preview / Video Interface -->
+      <div class="relative max-w-6xl mx-auto mt-24 glow-indigo group animate-fade-in-up">
+        <div
+          class="absolute inset-0 bg-indigo-500/10 blur-[120px] rounded-full -z-10 opacity-0 group-hover:opacity-100 transition-all duration-700">
+        </div>
+        <div class="glass rounded-[40px] p-2 border border-slate-700/50 overflow-hidden shadow-3xl">
+          <div class="relative aspect-video rounded-[32px] overflow-hidden bg-slate-950">
+            <img src="/static/preview.png" alt="Co Penny Dashboard Preview" class="w-full h-full object-cover">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Background Elements -->
+    <div class="absolute top-1/4 -left-20 w-80 h-80 bg-indigo-600/10 blur-[100px] rounded-full anim-float"></div>
+    <div class="absolute bottom-1/4 -right-20 w-80 h-80 bg-blue-600/10 blur-[100px] rounded-full anim-float"
+      style="animation-delay: -2s"></div>
+  </main>
+
+
+  <!-- Features -->
+  <section class="py-40 px-6 bg-[#0a0f1d]" id="intelligence">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-20 items-center">
+        <div>
+          <h2 class="text-4xl md:text-5xl font-bold text-white mb-8 tracking-tight">AI that understands <span
+              class="text-indigo-400">exactly</span> how you spend.</h2>
+          <div class="space-y-8">
+            <div class="flex gap-6">
+              <div
+                class="w-14 h-14 bg-slate-800 rounded-2xl flex items-center justify-center shrink-0 border border-slate-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-indigo-400" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20" />
+                  <path d="m4.93 4.93 14.14 14.14" />
+                  <path d="M2 12h20" />
+                  <path d="m4.93 19.07 14.14-14.14" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-white mb-2">Multi-Source Synthesis</h3>
+                <p class="text-slate-400 leading-relaxed">Aggregate data from multiple banks and credit accounts into a
+                  single cohesive financial profile.</p>
+              </div>
+            </div>
+            <div class="flex gap-6">
+              <div
+                class="w-14 h-14 bg-slate-800 rounded-2xl flex items-center justify-center shrink-0 border border-slate-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-indigo-400" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                  <line x1="12" x2="12" y1="22.08" y2="12" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-white mb-2">Predictive Categorization</h3>
+                <p class="text-slate-400 leading-relaxed">Our models learn your specific merchant habits, reducing
+                  manual tracking work by 98%.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="glass rounded-[40px] p-10 border border-slate-700 shadow-2xl relative">
+          <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-600/20 blur-3xl opacity-50"></div>
+          <div class="flex items-center justify-between mb-10">
+            <h4 class="font-bold text-slate-300 uppercase tracking-widest text-xs">Recent Intelligence</h4>
+            <span class="text-indigo-400 text-xs font-bold">LIVE</span>
+          </div>
+          <div class="space-y-6">
+            <div class="bg-indigo-500/5 p-4 rounded-2xl border border-indigo-500/10">
+              <p class="text-slate-400 text-xs mb-1">Observation</p>
+              <p class="text-white text-sm">"Your spending at Starbucks has increased by 40% compared to Q3."</p>
+            </div>
+            <div class="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
+              <p class="text-slate-400 text-xs mb-1">Suggestion</p>
+              <p class="text-white text-sm">"Moving ₹ 50,000 to your high-yield account would earn ₹ 450 extra interest
+                this year."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="py-40 px-6 bg-[#0f172a]" id="pricing">
+    <div class="max-w-7xl mx-auto text-center mb-16">
+      <div
+        class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-4 py-1 rounded-full text-indigo-400 text-xs font-bold uppercase tracking-widest mb-6">
+        Subscription Plans
+      </div>
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">Simple, transparent <span
+          class="text-indigo-400">pricing.</span></h2>
+      <p class="text-slate-400 text-lg max-w-2xl mx-auto">Choose the tier that fits your financial scale.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <!-- Tier 1 -->
+      <div
+        class="glass p-8 rounded-[32px] border border-slate-700/50 flex flex-col hover:border-indigo-500/30 transition-all group">
+        <div class="mb-8">
+          <p class="text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-2">Tier 1</p>
+          <h3 class="text-xl font-bold text-white mb-2">Free</h3>
+          <div class="flex items-baseline gap-1">
+            <span class="text-4xl font-bold text-white">₹0</span>
+            <span class="text-slate-500 text-sm">/month</span>
+          </div>
+        </div>
+        <ul class="space-y-4 mb-10 text-left flex-grow">
+          <li class="flex items-center gap-3 text-slate-300 text-sm">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            50 Transactions / month
+          </li>
+          <li class="flex items-center gap-3 text-slate-300 text-sm">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            10 AI Queries / day
+          </li>
+          <li class="flex items-center gap-3 text-slate-300 text-sm">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Basic Analytics
+          </li>
+        </ul>
+        <button onclick="openModal('signup')"
+          class="w-full py-4 rounded-2xl border border-slate-700 text-white font-bold hover:bg-slate-800 transition-all">Get
+          Started</button>
+      </div>
+
+      <!-- Tier 2 -->
+      <div
+        class="glass p-8 rounded-[32px] border-2 border-indigo-500 relative flex flex-col hover:scale-105 transition-all shadow-2xl shadow-indigo-500/10">
+        <div
+          class="absolute -top-4 left-1/2 -translate-x-1/2 bg-indigo-500 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full">
+          Most Popular</div>
+        <div class="mb-8 text-center pt-2">
+          <p class="text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-2">Tier 2</p>
+          <h3 class="text-xl font-bold text-white mb-2">Pro</h3>
+          <div class="flex items-baseline justify-center gap-1">
+            <span class="text-4xl font-bold text-white">₹500</span>
+            <span class="text-slate-500 text-sm">/month</span>
+          </div>
+        </div>
+        <ul class="space-y-4 mb-10 text-left flex-grow">
+          <li class="flex items-center gap-3 text-slate-300 text-sm">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            500 Transactions / month
+          </li>
+          <li class="flex items-center gap-3 text-slate-300 text-sm">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            50 AI Queries / day
+          </li>
+          <li class="flex items-center gap-3 text-slate-300 text-sm">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Full Intelligence Suite
+          </li>
+          <li class="flex items-center gap-3 text-slate-300 text-sm">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Email Cashflow Alerts
+          </li>
+        </ul>
+        <button onclick="openModal('signup')"
+          class="w-full py-4 rounded-2xl bg-indigo-600 text-white font-bold hover:bg-indigo-500 transition-all shadow-xl shadow-indigo-500/20">Go
+          Pro</button>
+      </div>
+
+      <!-- Tier 3 -->
+      <div
+        class="glass p-8 rounded-[32px] border border-slate-700/50 flex flex-col hover:border-indigo-500/30 transition-all">
+        <div class="mb-8">
+          <p class="text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-2">Tier 3</p>
+          <h3 class="text-xl font-bold text-white mb-2">Enterprise</h3>
+          <div class="flex items-baseline gap-1">
+            <span class="text-4xl font-bold text-white">₹900</span>
+            <span class="text-slate-500 text-sm">/month</span>
+          </div>
+        </div>
+        <ul class="space-y-4 mb-10 text-left flex-grow">
+          <li class="flex items-center gap-3 text-slate-300 text-sm">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Unlimited Transactions
+          </li>
+          <li class="flex items-center gap-3 text-slate-300 text-sm">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Unlimited AI Queries
+          </li>
+          <li class="flex items-center gap-3 text-slate-300 text-sm">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Priority Human Support
+          </li>
+          <li class="flex items-center gap-3 text-slate-300 text-sm">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Custom Insight Models
+          </li>
+        </ul>
+        <button onclick="openModal('signup')"
+          class="w-full py-4 rounded-2xl border border-slate-700 text-white font-bold hover:bg-slate-800 transition-all">Contact
+          Sales</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <footer class="py-20 px-6 text-center border-t border-slate-800/50 bg-[#0f172a]">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-white mb-8 tracking-tight">Ready for executive control?</h2>
+      <button onclick="openModal('signup')"
+        class="inline-block bg-indigo-600 hover:bg-indigo-500 px-10 py-4 rounded-full font-bold text-lg transition-all mb-12">Get
+        Started Now</button>
+      <div class="flex items-center justify-center gap-6 text-slate-500 text-sm font-medium">
+        <span>© 2025 Co Penny</span>
+        <span class="w-1 h-1 bg-slate-700 rounded-full"></span>
+        <span class="font-bold text-slate-400">CREATED BY REDHACK</span>
+        <span class="w-1 h-1 bg-slate-700 rounded-full"></span>
+        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+        <span class="w-1 h-1 bg-slate-700 rounded-full"></span>
+        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Auth Modals -->
+  <div id="authModal"
+    class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-slate-950/80 backdrop-blur-sm">
+    <div onclick="event.stopPropagation()"
+      class="glass w-full max-w-md rounded-[32px] p-10 border border-slate-700 shadow-3xl relative animate-fade-in">
+      <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-500 hover:text-white transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </svg>
+      </button>
+
+      <div id="loginForm" class="hidden">
+        <h3 class="text-2xl font-bold text-white mb-2">Welcome back</h3>
+        <p class="text-slate-400 text-sm mb-8">Enter your credentials to access your dashboard.</p>
+        <div class="space-y-4">
+          <input type="email" id="loginEmail" placeholder="Email address" required
+            class="w-full bg-slate-900 border border-slate-700 rounded-2xl py-4 px-6 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+          <input type="password" id="loginPass" placeholder="Password" required
+            class="w-full bg-slate-900 border border-slate-700 rounded-2xl py-4 px-6 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+          <button onclick="handleLogin()"
+            class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-2xl font-bold transition-all shadow-xl shadow-indigo-500/20">Sign
+            In</button>
+          <p class="text-center text-xs text-slate-500">Don't have an account? <button onclick="switchAuth('signup')"
+              class="text-indigo-400 font-bold hover:underline">Sign Up</button></p>
+        </div>
+      </div>
+
+      <div id="signupForm" class="hidden">
+        <h3 class="text-2xl font-bold text-white mb-2">Create account</h3>
+        <p class="text-slate-400 text-sm mb-8">Start your journey towards financial clarity.</p>
+        <div class="space-y-4">
+          <input type="text" id="signupName" placeholder="Full name"
+            class="w-full bg-slate-900 border border-slate-700 rounded-2xl py-4 px-6 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+          <input type="email" id="signupEmail" placeholder="Email address" required
+            class="w-full bg-slate-900 border border-slate-700 rounded-2xl py-4 px-6 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+          <input type="password" id="signupPass" placeholder="Create password" required
+            class="w-full bg-slate-900 border border-slate-700 rounded-2xl py-4 px-6 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+          <button onclick="handleLogin()"
+            class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-2xl font-bold transition-all shadow-xl shadow-indigo-500/20">Create
+            Account</button>
+          <p class="text-center text-xs text-slate-500">Already a member? <button onclick="switchAuth('login')"
+              class="text-indigo-400 font-bold hover:underline">Sign In</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plan Selection Modal (Shows after signup) -->
+  <div id="planModal"
+    class="fixed inset-0 z-[101] hidden items-center justify-center p-6 bg-slate-950/90 backdrop-blur-md">
+    <div onclick="event.stopPropagation()"
+      class="glass w-full max-w-4xl rounded-[40px] p-10 border border-slate-700 shadow-3xl relative animate-fade-in">
+
+      <div class="text-center mb-10">
+        <h3 class="text-3xl font-bold text-white mb-2">Welcome to Co Penny</h3>
+        <p class="text-slate-400">Select a plan to complete your registration and start your financial journey.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Free -->
+        <div
+          class="bg-slate-900/50 border border-slate-700 rounded-3xl p-6 flex flex-col hover:border-indigo-500/50 transition-all cursor-pointer group"
+          onclick="selectPlan('free')">
+          <div class="mb-4">
+            <p class="text-indigo-400 text-[9px] font-bold uppercase tracking-widest mb-1">Tier 1</p>
+            <h4 class="font-bold text-white">Free</h4>
+            <div class="text-2xl font-bold text-white">₹0</div>
+          </div>
+          <ul class="text-xs text-slate-400 space-y-2 mb-6 flex-grow">
+            <li>• 50 Transactions / mo</li>
+            <li>• 10 AI Queries / day</li>
+            <li>• Standard Analytics</li>
+          </ul>
+          <button
+            class="w-full py-3 rounded-xl bg-slate-800 text-white text-sm font-bold group-hover:bg-indigo-600 transition-all">Select
+            Plan</button>
+        </div>
+
+        <!-- Pro -->
+        <div
+          class="bg-indigo-500/10 border-2 border-indigo-500 rounded-3xl p-6 flex flex-col hover:scale-105 transition-all cursor-pointer shadow-lg shadow-indigo-500/10"
+          onclick="selectPlan('pro')">
+          <div class="mb-4">
+            <p class="text-indigo-400 text-[9px] font-bold uppercase tracking-widest mb-1">Tier 2</p>
+            <h4 class="font-bold text-white">Pro</h4>
+            <div class="text-2xl font-bold text-white">₹500</div>
+          </div>
+          <ul class="text-xs text-slate-300 space-y-2 mb-6 flex-grow">
+            <li>• 500 Transactions / mo</li>
+            <li>• 50 AI Queries / day</li>
+            <li>• Full Analytics Suite</li>
+            <li>• Cashflow Alerts</li>
+          </ul>
+          <button
+            class="w-full py-3 rounded-xl bg-indigo-600 text-white text-sm font-bold shadow-lg shadow-indigo-500/20">Go
+            Pro</button>
+        </div>
+
+        <!-- Enterprise -->
+        <div
+          class="bg-slate-900/50 border border-slate-700 rounded-3xl p-6 flex flex-col hover:border-indigo-500/30 transition-all cursor-pointer group"
+          onclick="selectPlan('enterprise')">
+          <div class="mb-4">
+            <p class="text-indigo-400 text-[9px] font-bold uppercase tracking-widest mb-1">Tier 3</p>
+            <h4 class="font-bold text-white">Enterprise</h4>
+            <div class="text-2xl font-bold text-white">₹900</div>
+          </div>
+          <ul class="text-xs text-slate-400 space-y-2 mb-6 flex-grow">
+            <li>• Unlimited Transactions</li>
+            <li>• Unlimited AI Queries</li>
+            <li>• Priority Support</li>
+            <li>• Advanced Modeling</li>
+          </ul>
+          <button
+            class="w-full py-3 rounded-xl bg-slate-800 text-white text-sm font-bold group-hover:bg-indigo-600 transition-all">Select
+            Plan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+      menu.classList.toggle('flex');
+    }
+  </script>
+  <script src="/static/landing.js"></script>
+
+</body>
+
+</html>

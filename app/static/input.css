@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+	@keyframes fade-in-up {
+		from {
+			opacity: 0;
+			transform: translateY(16px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	@keyframes fade-in {
+		from { opacity: 0 }
+		to { opacity: 1 }
+	}
+	@keyframes scale-in {
+		from {
+			opacity: 0;
+			transform: scale(0.96);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+	@keyframes tilt-in {
+		0% {
+			opacity: 0;
+			transform: translateY(10px) rotateX(8deg);
+			transform-origin: top center;
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0) rotateX(0);
+		}
+	}
+	@keyframes subtle-float {
+		0%, 100% { transform: translateY(0) }
+		50% { transform: translateY(-6px) }
+	}
+
+	.animate-fade-in-up { animation: fade-in-up .6s cubic-bezier(.21,.61,.35,1) both }
+	.animate-fade-in { animation: fade-in .5s ease-out both }
+	.animate-scale-in { animation: scale-in .4s ease-out both }
+	.animate-tilt-in { animation: tilt-in .7s cubic-bezier(.21,.61,.35,1) both }
+	.animate-subtle-float { animation: subtle-float 4s ease-in-out infinite }
+
+	/* Nice hover lift and glow */
+	.hover-elevate {
+		transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease, border-color .25s ease;
+	}
+	.hover-elevate:hover {
+		transform: translateY(-6px);
+		box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+	}
+
+	/* Button press effect */
+	.btn-press {
+		transition: transform .12s ease, box-shadow .2s ease;
+	}
+	.btn-press:active {
+		transform: translateY(1px) scale(0.99);
+	}
+}
+
+
