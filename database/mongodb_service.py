@@ -85,11 +85,11 @@ class MongoDBService:
             return False
 
     def get_user_profile(self, user_id: str) -> Optional[Dict[str, Any]]:
-        if not self.db: return None
+        if self.db is None: return None
         return self._strip_id(self.db.user_profiles.find_one({"user_id": user_id}))
 
     def create_user_profile(self, user_id: str, profile_data: Dict[str, Any]) -> Dict[str, Any]:
-        if not self.db: return {"success": False, "error": "Database not connected"}
+        if self.db is None: return {"success": False, "error": "Database not connected"}
         profile_data["user_id"] = user_id
         try:
             self.db.user_profiles.update_one(
@@ -103,7 +103,7 @@ class MongoDBService:
             return {"success": False, "error": str(e)}
 
     def update_user_profile(self, user_id: str, updates: Dict[str, Any]) -> Dict[str, Any]:
-        if not self.db: return {"success": False, "error": "Database not connected"}
+        if self.db is None: return {"success": False, "error": "Database not connected"}
         try:
             self.db.user_profiles.update_one(
                 {"user_id": user_id},
@@ -115,11 +115,11 @@ class MongoDBService:
             return {"success": False, "error": str(e)}
 
     def list_all_users(self) -> List[str]:
-        if not self.db: return []
+        if self.db is None: return []
         return self.db.user_profiles.distinct("user_id")
 
     def save_user_csv_metadata(self, user_id: str, metadata: Dict[str, Any]) -> Dict[str, Any]:
-        if not self.db: return {"success": False, "error": "Database not connected"}
+        if self.db is None: return {"success": False, "error": "Database not connected"}
         try:
             self.db.user_metadata.update_one(
                 {"user_id": user_id},
@@ -132,11 +132,11 @@ class MongoDBService:
             return {"success": False, "error": str(e)}
 
     def get_user_csv_metadata(self, user_id: str) -> Optional[Dict[str, Any]]:
-        if not self.db: return None
+        if self.db is None: return None
         return self._strip_id(self.db.user_metadata.find_one({"user_id": user_id}))
 
     def delete_user_profile(self, user_id: str) -> Dict[str, Any]:
-        if not self.db: return {"success": False, "error": "Database not connected"}
+        if self.db is None: return {"success": False, "error": "Database not connected"}
         try:
             self.db.user_profiles.delete_one({"user_id": user_id})
             # Also delete related data
@@ -147,7 +147,7 @@ class MongoDBService:
             return {"success": False, "error": str(e)}
 
     def register_user(self, email: str, password: str, name: str) -> Dict[str, Any]:
-        if not self.db: return {"success": False, "error": "Database not connected"}
+        if self.db is None: return {"success": False, "error": "Database not connected"}
         import hashlib
         # Normalize email to lowercase for consistent matching
         email = email.lower().strip()
@@ -178,7 +178,7 @@ class MongoDBService:
         return doc
 
     def verify_user(self, email: str, password: str) -> Dict[str, Any]:
-        if not self.db: return {"success": False, "error": "Database not connected"}
+        if self.db is None: return {"success": False, "error": "Database not connected"}
         import hashlib
         # Normalize email to lowercase for consistent matching
         email = email.lower().strip()
@@ -193,7 +193,7 @@ class MongoDBService:
             return {"success": False, "error": str(e)}
 
     def save_model_info(self, user_id: str, model_info: Dict[str, Any]) -> Dict[str, Any]:
-        if not self.db: return {"success": False, "error": "Database not connected"}
+        if self.db is None: return {"success": False, "error": "Database not connected"}
         try:
             self.db.user_models.update_one(
                 {"user_id": user_id},
@@ -207,7 +207,7 @@ class MongoDBService:
 
     def save_cashflow_alert(self, user_id: str, alert: Dict[str, Any]) -> Dict[str, Any]:
         """Save a cashflow alert for a user"""
-        if not self.db: return {"success": False, "error": "Database not connected"}
+        if self.db is None: return {"success": False, "error": "Database not connected"}
         from datetime import datetime
         try:
             alert["user_id"] = user_id
@@ -220,7 +220,7 @@ class MongoDBService:
 
     def get_user_alerts(self, user_id: str, limit: int = 50) -> List[Dict[str, Any]]:
         """Get alert history for a user"""
-        if not self.db: return []
+        if self.db is None: return []
         try:
             alerts = list(self.db.cashflow_alerts.find(
                 {"user_id": user_id},
@@ -233,7 +233,7 @@ class MongoDBService:
 
     def clear_user_alerts(self, user_id: str) -> Dict[str, Any]:
         """Clear all alerts for a user"""
-        if not self.db: return {"success": False, "error": "Database not connected"}
+        if self.db is None: return {"success": False, "error": "Database not connected"}
         try:
             result = self.db.cashflow_alerts.delete_many({"user_id": user_id})
             self.save_local_data()
@@ -277,7 +277,7 @@ class MongoDBService:
 
     def update_user_subscription(self, user_id: str, tier: str, months: int = 1) -> Dict[str, Any]:
         """Update user's subscription tier"""
-        if not self.db: return {"success": False, "error": "Database not connected"}
+        if self.db is None: return {"success": False, "error": "Database not connected"}
         from datetime import datetime, timedelta
         
         if tier not in self.SUBSCRIPTION_TIERS:
@@ -307,7 +307,7 @@ class MongoDBService:
 
     def get_user_subscription(self, user_id: str) -> Dict[str, Any]:
         """Get user's current subscription"""
-        if not self.db: return {"tier": "free", "features": self.SUBSCRIPTION_TIERS["free"]}
+        if self.db is None: return {"tier": "free", "features": self.SUBSCRIPTION_TIERS["free"]}
         
         try:
             sub = self.db.user_subscriptions.find_one({"user_id": user_id})
@@ -364,7 +364,7 @@ class MongoDBService:
 
     def increment_usage(self, user_id: str, usage_type: str) -> Dict[str, Any]:
         """Increment usage counter for rate limiting"""
-        if not self.db: return {"success": False}
+        if self.db is None: return {"success": False}
         
         try:
             if usage_type == "ai_query":
