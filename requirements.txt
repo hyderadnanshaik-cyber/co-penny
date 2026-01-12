@@ -14,3 +14,4 @@ jsonschema
 requests
 duckdb
 mongomock
+seaborn
