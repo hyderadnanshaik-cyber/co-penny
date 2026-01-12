@@ -15,3 +15,4 @@ requests
 duckdb
 mongomock
 seaborn
+scikit-learn
